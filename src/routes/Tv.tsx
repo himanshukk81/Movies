@@ -6,20 +6,53 @@ import conf from "../Config";
 import CardSection from "../components/CardSection";
 import Select from "../components/Select";
 import Loading from "../views/Loading";
+import ReactPlayer from 'react-player'
 
 function Tv(){
+
+    
+    let newDatas = 
+        {
+            'embed':'https://www.youtube.com/watch?v=hebWYacbdvc',
+            'seasons':6,
+            'title':'Test 1',
+            'description':'Thsi is test descriptions',
+            'released':'2025',
+            'genres':[1,2,3,4],
+            'stars':5,
+        };
+
+    let episodeList = [
+        {
+            'id':1,
+            'title':'Mohit Ka kaam'
+        },
+        {
+            'id':2,
+            'title':'Himanshu ka Work'
+        },
+        {
+            'id':3,
+            'title':'Working on Midnight Movies'
+        },
+        {
+            'id':4,
+            'title':'Working on it'
+        },
+        
+    ];
     const nav = useNavigate();
 
     const { id } = useParams();
 
-    const [data, setData] = useState<any>(null);
+    const [data, setData] = useState<any>(newDatas);
 
     const [search, setSearch] = useSearchParams();
 
     const [season, setSeason] = useState<number>(1);
     const [episode, setEpisode] = useState<number>(1);
 
-    const [episodes, setEpisodes] = useState<any>(null);
+    const [episodes, setEpisodes] = useState<any>(episodeList);
     
     function updateSeason(newSeason:number){
         if(!data){
@@ -47,8 +80,8 @@ function Tv(){
         setEpisode(1);
         removeEpisodeQuery();
 
-        setEpisodes(null);
-        getEpisodesData(newSeason);
+        // setEpisodes(null);
+        // getEpisodesData(newSeason);
     }
 
     function updateEpisode(newEpisode:number){
@@ -86,8 +119,8 @@ function Tv(){
     }
 
     async function loadNewShow(){
-        setData(null);
-        setEpisodes(null);
+        // setData(null);
+        // setEpisodes(null);
 
         setSeason(1);
         removeSeasonQuery();
@@ -95,52 +128,76 @@ function Tv(){
         setEpisode(1);
         removeEpisodeQuery();
 
-        let tempData = await getShowData();
-
-        if(!tempData){
-            return nav("/");
+        try{
+            let tempData = await getShowData();
+            if(!tempData){
+                return nav("/");
+            }
+            // getEpisodesData(1);
         }
-
-        getEpisodesData(1);
+        catch(error){
+            console.log(error);
+        }
+        
     }
 
     async function loadShow(){
-        let tempData = await getShowData();
+        try{
+            let tempData = await getShowData();
+            if(!tempData){
+                return nav("/");
+            }
 
-        if(!tempData){
-            return nav("/");
+            let tempSeason = checkSeasonQuery(tempData);
+
+            // let tempEpisodes = await getEpisodesData(tempSeason || 1);
+
+            // checkEpisodeQuery(tempEpisodes);
         }
-
-        let tempSeason = checkSeasonQuery(tempData);
-
-        let tempEpisodes = await getEpisodesData(tempSeason || 1);
-
-        checkEpisodeQuery(tempEpisodes);
+        catch(error){
+            console.log(error);
+        }
+        
+        
     }
 
     async function getShowData(){
-        const req = await fetch(conf.API_URL+"/tv/data?id="+id);
-        const res = await req.json();
+        try{
+            const req = await fetch(conf.API_URL+"/tv/data?id="+id);
+            const res = await req.json();
 
-        if(res.success){
-            setData(res.show);
+            if(res.success){
+                // setData(res.show);
+                return res.show;
+            }
 
-            return res.show;
         }
+        catch(error){
+            return "success";
+            console.log(error); 
+        }
+        
 
         return null;
     }
 
     async function getEpisodesData(tempSeason:number = season){
-        const req = await fetch(conf.API_URL+"/tv/episodes?id="+id+"&season="+tempSeason);
-        const res = await req.json();
 
-        if(res.success){
-            setEpisodes(res.episodes);
-            return res.episodes;
+        try{
+            const req = await fetch(conf.API_URL+"/tv/episodes?id="+id+"&season="+tempSeason);
+            const res = await req.json();
+
+            if(res.success){
+                setEpisodes(res.episodes);
+                return res.episodes;
+            }
+
+            return null;
         }
-
-        return null;
+        catch(error){
+            console.log(error);
+        }
+        
     }
 
     function checkSeasonQuery(tempData:any = data){
@@ -205,10 +262,10 @@ function Tv(){
 
     useEffect(() => onIdChange(), [id]);
 
-    if(!data){
-        return <Loading />;
-    }
-
+        if(!data){
+            return <Loading />;
+        }
+    console.log({data:data});
     return (
         <>
             <Helmet>
@@ -216,7 +273,8 @@ function Tv(){
             </Helmet>
             <div className="container">
                 <div className="video-frame">
-                    <iframe src={`${data.embed}&s=${season}&e=${episode}`} allowFullScreen></iframe>
+                    {/* <iframe src={`${data.embed}&s=${season}&e=${episode}`} allowFullScreen></iframe> */}
+                    <ReactPlayer url={data.embed} />
                 </div>
                 
                 <div className="video-meta">
@@ -256,7 +314,7 @@ function Tv(){
                         </TelegramShareButton>
                     </div>
 
-                    <div className="video-meta-genres">
+                    {/* <div className="video-meta-genres">
                         {
                             data.genres.map((genre: string) => (
                                 <div key={genre} className="video-meta-genre">
@@ -264,7 +322,7 @@ function Tv(){
                                 </div>
                             ))
                         }
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className="video-playlist">

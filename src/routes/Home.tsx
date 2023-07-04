@@ -6,96 +6,296 @@ import CardSection from "../components/CardSection";
 import Loading from "../views/Loading";
 
 function Home(){
+
+    let movie1 = [{
+        id: 1,
+        'embed':'https://www.youtube.com/watch?v=hebWYacbdvc',
+        'title':'flash',
+        'stars':'10',
+        'released':'2023',
+        'runtime':135,
+        'description':'Barry Allen uses his super speed to change the past, but his attempt to save his family creates a world without super heroes, forcing him to race for his life in order to save the future.',
+        'recommendations':[
+            {
+                'id':1,
+                'type':'movie',
+                'image':'123',
+                'title':'Most Recommended Movie'
+            }
+        ],
+        'genres':['Animation','comedy','Sci-Fi','Action'],
+        'type':'movie'
+    }];
+
+    let popularTvs = [{
+        id: 1,
+        'embed':'https://www.youtube.com/watch?v=hebWYacbdvc',
+        'title':'flash',
+        'stars':'10',
+        'released':'2023',
+        'runtime':135,
+        'description':'Barry Allen uses his super speed to change the past, but his attempt to save his family creates a world without super heroes, forcing him to race for his life in order to save the future.',
+        'recommendations':[
+            {
+                'id':1,
+                'type':'movie',
+                'image':'123',
+                'title':'Most Recommended Movie'
+            }
+        ],
+        'genres':['Animation','comedy','Sci-Fi','Action'],
+        'type':'tv'
+    }];
+
+    let topMovies1 = [
+        {
+            id: 1,
+            'embed':'https://www.youtube.com/watch?v=hebWYacbdvc',
+            'title':'flash',
+            'stars':'10',
+            'released':'2023',
+            'runtime':135,
+            'description':'Barry Allen uses his super speed to change the past, but his attempt to save his family creates a world without super heroes, forcing him to race for his life in order to save the future.',
+            'recommendations':[
+                {
+                    'id':1,
+                    'type':'movie',
+                    'image':'123',
+                    'title':'Most Recommended Movie'
+                }
+            ],
+            'genres':['Animation','comedy','Sci-Fi','Action'],
+            'type':'movie'
+        },
+        {
+            id: 1,
+            'embed':'https://www.youtube.com/watch?v=hebWYacbdvc',
+            'title':'flash',
+            'stars':'10',
+            'released':'2023',
+            'runtime':135,
+            'description':'Barry Allen uses his super speed to change the past, but his attempt to save his family creates a world without super heroes, forcing him to race for his life in order to save the future.',
+            'recommendations':[
+                {
+                    'id':1,
+                    'type':'movie',
+                    'image':'123',
+                    'title':'Most Recommended Movie'
+                }
+            ],
+            'genres':['Animation','comedy','Sci-Fi','Action'],
+            'type':'movie'
+        },
+        {
+            id: 1,
+            'embed':'https://www.youtube.com/watch?v=hebWYacbdvc',
+            'title':'flash',
+            'stars':'10',
+            'released':'2023',
+            'runtime':135,
+            'description':'Barry Allen uses his super speed to change the past, but his attempt to save his family creates a world without super heroes, forcing him to race for his life in order to save the future.',
+            'recommendations':[
+                {
+                    'id':1,
+                    'type':'movie',
+                    'image':'123',
+                    'title':'Most Recommended Movie'
+                }
+            ],
+            'genres':['Animation','comedy','Sci-Fi','Action'],
+            'type':'movie'
+        },
+        {
+            id: 1,
+            'embed':'https://www.youtube.com/watch?v=hebWYacbdvc',
+            'title':'flash',
+            'stars':'10',
+            'released':'2023',
+            'runtime':135,
+            'description':'Barry Allen uses his super speed to change the past, but his attempt to save his family creates a world without super heroes, forcing him to race for his life in order to save the future.',
+            'recommendations':[
+                {
+                    'id':1,
+                    'type':'movie',
+                    'image':'123',
+                    'title':'Most Recommended Movie'
+                }
+            ],
+            'genres':['Animation','comedy','Sci-Fi','Action'],
+            'type':'movie'
+        },
+        {
+            id: 1,
+            'embed':'https://www.youtube.com/watch?v=hebWYacbdvc',
+            'title':'flash',
+            'stars':'10',
+            'released':'2023',
+            'runtime':135,
+            'description':'Barry Allen uses his super speed to change the past, but his attempt to save his family creates a world without super heroes, forcing him to race for his life in order to save the future.',
+            'recommendations':[
+                {
+                    'id':1,
+                    'type':'movie',
+                    'image':'123',
+                    'title':'Most Recommended Movie'
+                }
+            ],
+            'genres':['Animation','comedy','Sci-Fi','Action'],
+            'type':'movie'
+        }
+
+    ];
+
+    let topTV = [{
+        id: 1,
+        'embed':'https://www.youtube.com/watch?v=hebWYacbdvc',
+        'title':'flash',
+        'stars':'10',
+        'released':'2023',
+        'runtime':135,
+        'description':'Barry Allen uses his super speed to change the past, but his attempt to save his family creates a world without super heroes, forcing him to race for his life in order to save the future.',
+        'recommendations':[
+            {
+                'id':1,
+                'type':'movie',
+                'image':'123',
+                'title':'Most Recommended Movie'
+            }
+        ],
+        'genres':['Animation','comedy','Sci-Fi','Action'],
+        'type':'tv'
+    }];
+
     const [featured, setFeatured] = useState<any>(null);
-
-    const [popularMovies, setPopularMovies] = useState<any>(null);
-    const [popularTv, setPopularTv] = useState<any>(null);
-
-    const [topMovies, setTopMovies] = useState<any>(null);
-    const [topTv, setTopTv] = useState<any>(null);
+    
+    const [popularMovies, setPopularMovies] = useState<any>(movie1);
+    const [popularTv, setPopularTv] = useState<any>(popularTvs);
+    const [topMovies, setTopMovies] = useState<any>(topMovies1);
+    const [topTv, setTopTv] = useState<any>(topTV);
 
     async function getFeatured(){
-        const req = await fetch(conf.API_URL+"/featured");
-        const res = await req.json();
-
-        if(res.success){
-            const data = res.featured;
-            
+        try {
+            const req = await fetch(conf.API_URL+"/featured");
+            const res = await req.json();
+    
+            if(res.success){
+                console.log("On success");
+                
+                const data = res.featured;
+                
+                setFeatured({
+                    id: data.id,
+                    title: data.title,
+                    image: data.backdrop,
+                    year: data.released,
+                    length: data.runtime+"m",
+                    stars: Math.round(data.stars),
+                    description: data.description,
+                    type: data.type
+                });
+            }
+        } catch (error) {
+            console.log(error);
             setFeatured({
-                id: data.id,
-                title: data.title,
-                image: data.backdrop,
-                year: data.released,
-                length: data.runtime+"m",
-                stars: Math.round(data.stars),
-                description: data.description,
-                type: data.type
+                id: 1,
+                title: 'Flash',
+                image: 'https://images2.alphacoders.com/131/1316826.jpeg',
+                year: 2023,
+                length: 120+"m",
+                stars: 5,
+                description: 'Barry Allen uses his super speed to change the past, but his attempt to save his family creates a world without super heroes, forcing him to race for his life in order to save the future.',
+                type: 'movie'
             });
         }
     }
 
     async function getPopularMovies(){
-        const req = await fetch(conf.API_URL+"/movies/popular");
-        const res = await req.json();
 
-        if(res.success){
-            setPopularMovies(res.movies.map((movie: any) => {
-                return {
-                    id: movie.id,
-                    title: movie.title,
-                    image: movie.poster,
-                    type: "movie"
-                }
-            }));
+        try{
+            const req = await fetch(conf.API_URL+"/movies/popular");
+            const res = await req.json();
+    
+            if(res.success){
+                setPopularMovies(res.movies.map((movie: any) => {
+                    return {
+                        id: movie.id,
+                        title: movie.title,
+                        image: movie.poster,
+                        type: "movie"
+                    }
+                }));
+            }
         }
+        catch(error){
+            console.log(error);
+        }
+      
     }
 
     async function getPopularTv(){
-        const req = await fetch(conf.API_URL+"/tv/popular");
-        const res = await req.json();
-
-        if(res.success){
-            setPopularTv(res.shows.map((movie: any) => {
-                return {
-                    id: movie.id,
-                    title: movie.title,
-                    image: movie.poster,
-                    type: "tv"
-                }
-            }));
+        try{
+            const req = await fetch(conf.API_URL+"/tv/popular");
+            const res = await req.json();
+    
+            if(res.success){
+                setPopularTv(res.shows.map((movie: any) => {
+                    return {
+                        id: movie.id,
+                        title: movie.title,
+                        image: movie.poster,
+                        type: "tv"
+                    }
+                }));
+            }
         }
+        catch(error){
+            console.log(error);
+        }
+       
     }
 
     async function getTopMovies(){
-        const req = await fetch(conf.API_URL+"/movies/top-rated");
-        const res = await req.json();
-
-        if(res.success){
-            setTopMovies(res.movies.map((movie: any) => {
-                return {
-                    id: movie.id,
-                    title: movie.title,
-                    image: movie.poster,
-                    type: "movie"
-                }
-            }));
+        try{
+            const req = await fetch(conf.API_URL+"/movies/top-rated");
+            const res = await req.json();
+    
+            if(res.success){
+                setTopMovies(res.movies.map((movie: any) => {
+                    return {
+                        id: movie.id,
+                        title: movie.title,
+                        image: movie.poster,
+                        type: "movie"
+                    }
+                }));
+            }
         }
+        catch(error){
+            console.log(error);
+        }
+       
     }
 
     async function getTopTv(){
-        const req = await fetch(conf.API_URL+"/tv/top-rated");
-        const res = await req.json();
-
-        if(res.success){
-            setTopTv(res.shows.map((movie: any) => {
-                return {
-                    id: movie.id,
-                    title: movie.title,
-                    image: movie.poster,
-                    type: "tv"
-                }
-            }));
+        try{
+            const req = await fetch(conf.API_URL+"/tv/top-rated");
+            const res = await req.json();
+    
+            if(res.success){
+                setTopTv(res.shows.map((movie: any) => {
+                    return {
+                        id: movie.id,
+                        title: movie.title,
+                        image: movie.poster,
+                        type: "tv"
+                    }
+                }));
+            }
         }
+        catch(error){
+            console.log(error);
+        }
+       
     }
 
     useEffect(() => {

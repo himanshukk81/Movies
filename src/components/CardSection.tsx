@@ -57,11 +57,10 @@ function CardSection({title, items}:any){
                             to={`/${item.type === "movie" ? "movie" : "tv"}/${item.id}`}
                             className="movie-card"
                             style={{
-                                background: `url(${conf.TMDB_IMAGE_URL+"/w200"+item.image}) no-repeat center / cover`
+                                background: `url(https://images2.alphacoders.com/131/1316826.jpeg) no-repeat center / cover`
                             }}>
                                 <div className="movie-card-content">
                                     <i className="fa-solid fa-play"></i>
-
                                     <p>{item.title}</p>
                                 </div>
                             </Link>

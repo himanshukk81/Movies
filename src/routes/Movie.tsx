@@ -5,29 +5,51 @@ import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon, Tel
 import conf from "../Config";
 import CardSection from "../components/CardSection";
 import Loading from "../views/Loading";
+import ReactPlayer from 'react-player'
 
 function Movie(){
     const nav = useNavigate();
 
+    let embededData = {
+        'embed':'https://www.youtube.com/watch?v=hebWYacbdvc',
+        'title':'flash',
+        'stars':'10',
+        'released':'2023',
+        'runtime':135,
+        'description':'Barry Allen uses his super speed to change the past, but his attempt to save his family creates a world without super heroes, forcing him to race for his life in order to save the future.',
+        'recommendations':[
+            {
+                'id':1,
+                'type':'movie',
+                'image':'123',
+                'title':'Most Recommended Movie'
+            }
+        ],
+        'genres':['Animation','comedy','Sci-Fi','Action']
+    }
     const { id } = useParams();
 
-    const [data, setData] = useState<any>(null);
+    const [data, setData] = useState<any>(embededData);
 
     async function getMovie(){
-        const req = await fetch(conf.API_URL+"/movies/data?id="+id);
-        const res = await req.json();
+        try{
+            const req = await fetch(conf.API_URL+"/movies/data?id="+id);
+            const res = await req.json();
 
-        if(res.success){
-            setData(res.movie);            
+            if(res.success){
+                setData(res.movie);            
+            }
+            else if(res.error){
+                return nav("/404");
+            }
         }
-        else if(res.error){
-            return nav("/404");
+        catch(error){
+            console.log(error);
         }
+        
     }
 
     useEffect(() => {
-        setData(null);
-
         getMovie();
     }, [id]);
     
@@ -35,6 +57,7 @@ function Movie(){
         return <Loading />;
     }
 
+    console.log({data});
     return (
         <>
             <Helmet>
@@ -42,7 +65,9 @@ function Movie(){
             </Helmet>
             <div className="container">
                 <div className="video-frame">
-                    <iframe src={data.embed} allowFullScreen></iframe>
+                    {/* <iframe src={data.embed} allowFullScreen></iframe> */}
+                    <ReactPlayer url={data.embed} />
+
                 </div>
 
                 <div className="video-meta">
