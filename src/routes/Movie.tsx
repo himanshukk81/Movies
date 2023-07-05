@@ -11,7 +11,7 @@ function Movie(){
     const nav = useNavigate();
 
     let embededData = {
-        'embed':'https://www.youtube.com/watch?v=hebWYacbdvc',
+        'embed':'https://drive.google.com/file/d/1bYKcSwfiqT5pVLXb_n1FcAXK9gnOIn5c/preview',
         'title':'flash',
         'stars':'10',
         'released':'2023',
@@ -65,8 +65,8 @@ function Movie(){
             </Helmet>
             <div className="container">
                 <div className="video-frame">
-                    {/* <iframe src={data.embed} allowFullScreen></iframe> */}
-                    <ReactPlayer url={data.embed} />
+                    <iframe src={data.embed} allowFullScreen></iframe>
+                    {/* <ReactPlayer url={data.embed} /> */}
 
                 </div>
 

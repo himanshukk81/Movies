@@ -11,16 +11,15 @@ import ReactPlayer from 'react-player'
 function Tv(){
 
     
-    let newDatas = 
-        {
-            'embed':'https://www.youtube.com/watch?v=hebWYacbdvc',
+    let newDatas = {
+            'embed':'https://drive.google.com/file/d/1bYKcSwfiqT5pVLXb_n1FcAXK9gnOIn5c/preview',
             'seasons':6,
             'title':'Test 1',
             'description':'Thsi is test descriptions',
             'released':'2025',
             'genres':[1,2,3,4],
             'stars':5,
-        };
+    };
 
     let episodeList = [
         {
@@ -272,9 +271,8 @@ function Tv(){
                 <title>{data.title+" - "+data.released+" - "+conf.SITE_NAME}</title>
             </Helmet>
             <div className="container">
-                <div className="video-frame">
-                    {/* <iframe src={`${data.embed}&s=${season}&e=${episode}`} allowFullScreen></iframe> */}
-                    <ReactPlayer url={data.embed} />
+                <div className="video-frame"> 
+                    <iframe src={data.embed} allowFullScreen></iframe>
                 </div>
                 
                 <div className="video-meta">

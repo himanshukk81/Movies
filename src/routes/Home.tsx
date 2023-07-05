@@ -9,7 +9,7 @@ function Home(){
 
     let movie1 = [{
         id: 1,
-        'embed':'https://www.youtube.com/watch?v=hebWYacbdvc',
+        'embed':'https://drive.google.com/file/d/1jrJ2ik86gKeJTUHQTfdxj8jtrQ_Wc7gz/preview',
         'title':'flash',
         'stars':'10',
         'released':'2023',
@@ -29,7 +29,7 @@ function Home(){
 
     let popularTvs = [{
         id: 1,
-        'embed':'https://www.youtube.com/watch?v=hebWYacbdvc',
+        'embed':'https://drive.google.com/file/d/1jrJ2ik86gKeJTUHQTfdxj8jtrQ_Wc7gz/preview',
         'title':'flash',
         'stars':'10',
         'released':'2023',
@@ -50,7 +50,7 @@ function Home(){
     let topMovies1 = [
         {
             id: 1,
-            'embed':'https://www.youtube.com/watch?v=hebWYacbdvc',
+            'embed':'https://drive.google.com/file/d/1jrJ2ik86gKeJTUHQTfdxj8jtrQ_Wc7gz/preview',
             'title':'flash',
             'stars':'10',
             'released':'2023',
@@ -69,7 +69,7 @@ function Home(){
         },
         {
             id: 1,
-            'embed':'https://www.youtube.com/watch?v=hebWYacbdvc',
+            'embed':'https://drive.google.com/file/d/1jrJ2ik86gKeJTUHQTfdxj8jtrQ_Wc7gz/preview',
             'title':'flash',
             'stars':'10',
             'released':'2023',
@@ -88,7 +88,7 @@ function Home(){
         },
         {
             id: 1,
-            'embed':'https://www.youtube.com/watch?v=hebWYacbdvc',
+            'embed':'https://drive.google.com/file/d/1jrJ2ik86gKeJTUHQTfdxj8jtrQ_Wc7gz/preview',
             'title':'flash',
             'stars':'10',
             'released':'2023',
@@ -107,7 +107,7 @@ function Home(){
         },
         {
             id: 1,
-            'embed':'https://www.youtube.com/watch?v=hebWYacbdvc',
+            'embed':'https://drive.google.com/file/d/1jrJ2ik86gKeJTUHQTfdxj8jtrQ_Wc7gz/preview',
             'title':'flash',
             'stars':'10',
             'released':'2023',
@@ -126,7 +126,7 @@ function Home(){
         },
         {
             id: 1,
-            'embed':'https://www.youtube.com/watch?v=hebWYacbdvc',
+            'embed':'https://drive.google.com/file/d/1jrJ2ik86gKeJTUHQTfdxj8jtrQ_Wc7gz/preview',
             'title':'flash',
             'stars':'10',
             'released':'2023',
@@ -148,7 +148,7 @@ function Home(){
 
     let topTV = [{
         id: 1,
-        'embed':'https://www.youtube.com/watch?v=hebWYacbdvc',
+        'embed':'https://drive.google.com/file/d/1jrJ2ik86gKeJTUHQTfdxj8jtrQ_Wc7gz/preview',
         'title':'flash',
         'stars':'10',
         'released':'2023',
