@@ -22,10 +22,13 @@ function Movie(){
                 'id':1,
                 'type':'movie',
                 'image':'123',
-                'title':'Most Recommended Movie'
+                'title':'Most Recommended Movie',
+                'background':'https://www.shutterstock.com/image-vector/grunge-red-preview-word-square-260nw-773175091.jpg'
+                // 'background':'https://images2.alphacoders.com/131/1316826.jpeg'
             }
         ],
-        'genres':['Animation','comedy','Sci-Fi','Action']
+        'genres':['Animation','comedy','Sci-Fi','Action'],
+        'background':'https://www.shutterstock.com/image-vector/grunge-red-preview-word-square-260nw-773175091.jpg'
     }
     const { id } = useParams();
 

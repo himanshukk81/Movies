@@ -4,9 +4,23 @@ import { Helmet } from "react-helmet";
 import conf from "../Config";
 import CardSection from "../components/CardSection";
 import Loading from "../views/Loading";
+import {collection, addDoc, orderBy, onSnapshot, QuerySnapshot, getDoc, getDocs , setDoc , doc} from "firebase/firestore"
+import {db} from '../configuration/firebase.js';
+
 
 function Home(){
 
+    let featuredMovie = {
+                id: 1,
+                title: 'Flash',
+                image: 'https://www.shutterstock.com/image-vector/grunge-red-preview-word-square-260nw-773175091.jpg',
+                year: 2023,
+                length: 120+"m",
+                stars: 5,
+                description: 'Barry Allen uses his super speed to change the past, but his attempt to save his family creates a world without super heroes, forcing him to race for his life in order to save the future.',
+                type: 'movie',
+                background:'https://www.shutterstock.com/image-vector/grunge-red-preview-word-square-260nw-773175091.jpg',
+    }
     let movie1 = [{
         id: 1,
         'embed':'https://drive.google.com/file/d/1jrJ2ik86gKeJTUHQTfdxj8jtrQ_Wc7gz/preview',
@@ -20,11 +34,13 @@ function Home(){
                 'id':1,
                 'type':'movie',
                 'image':'123',
-                'title':'Most Recommended Movie'
+                'title':'Most Recommended Movie',
+                'background':'https://www.shutterstock.com/image-vector/grunge-red-preview-word-square-260nw-773175091.jpg'
             }
         ],
         'genres':['Animation','comedy','Sci-Fi','Action'],
-        'type':'movie'
+        'type':'movie',
+        'background':'https://www.shutterstock.com/image-vector/grunge-red-preview-word-square-260nw-773175091.jpg'
     }];
 
     let popularTvs = [{
@@ -40,11 +56,13 @@ function Home(){
                 'id':1,
                 'type':'movie',
                 'image':'123',
-                'title':'Most Recommended Movie'
+                'title':'Most Recommended Movie',
+                'background':'https://www.shutterstock.com/image-vector/grunge-red-preview-word-square-260nw-773175091.jpg'
             }
         ],
         'genres':['Animation','comedy','Sci-Fi','Action'],
-        'type':'tv'
+        'type':'tv',
+        'background':'https://www.shutterstock.com/image-vector/grunge-red-preview-word-square-260nw-773175091.jpg'
     }];
 
     let topMovies1 = [
@@ -61,11 +79,13 @@ function Home(){
                     'id':1,
                     'type':'movie',
                     'image':'123',
-                    'title':'Most Recommended Movie'
+                    'title':'Most Recommended Movie',
+                    'background':'https://www.shutterstock.com/image-vector/grunge-red-preview-word-square-260nw-773175091.jpg'
                 }
             ],
             'genres':['Animation','comedy','Sci-Fi','Action'],
-            'type':'movie'
+            'type':'movie',
+            'background':'https://www.shutterstock.com/image-vector/grunge-red-preview-word-square-260nw-773175091.jpg'
         },
         {
             id: 1,
@@ -166,9 +186,9 @@ function Home(){
         'type':'tv'
     }];
 
-    const [featured, setFeatured] = useState<any>(null);
+    const [featured, setFeatured] = useState<any>(featuredMovie);
     
-    const [popularMovies, setPopularMovies] = useState<any>(movie1);
+    const [popularMovies, setPopularMovies] = useState<any>();
     const [popularTv, setPopularTv] = useState<any>(popularTvs);
     const [topMovies, setTopMovies] = useState<any>(topMovies1);
     const [topTv, setTopTv] = useState<any>(topTV);
@@ -179,10 +199,7 @@ function Home(){
             const res = await req.json();
     
             if(res.success){
-                console.log("On success");
-                
                 const data = res.featured;
-                
                 setFeatured({
                     id: data.id,
                     title: data.title,
@@ -199,37 +216,53 @@ function Home(){
             setFeatured({
                 id: 1,
                 title: 'Flash',
-                image: 'https://images2.alphacoders.com/131/1316826.jpeg',
+                image: 'https://www.shutterstock.com/image-vector/grunge-red-preview-word-square-260nw-773175091.jpg',
                 year: 2023,
                 length: 120+"m",
                 stars: 5,
                 description: 'Barry Allen uses his super speed to change the past, but his attempt to save his family creates a world without super heroes, forcing him to race for his life in order to save the future.',
-                type: 'movie'
+                type: 'movie',
+                background:'https://www.shutterstock.com/image-vector/grunge-red-preview-word-square-260nw-773175091.jpg',
             });
         }
     }
 
     async function getPopularMovies(){
 
+        //     const docData = {
+        //         id: 1,
+        //        'embed':'https://drive.google.com/file/d/1jrJ2ik86gKeJTUHQTfdxj8jtrQ_Wc7gz/preview',
+        //        'title':'flash_333',
+        //        'stars':'10',
+        //        'released':'2025',
+        //        'runtime':155,
+        //        'description':'Barry Allen uses his super speed to change the past, but his attempt to save his family creates a world without super heroes, forcing him to race for his life in order to save the future.',
+        //        'recommendations':[
+        //            {
+        //                'id':1,
+        //                'type':'movie',
+        //                'image':'123',
+        //                'title':'Most Recommended Movie',
+        //                'background':'https://www.shutterstock.com/image-vector/grunge-red-preview-word-square-260nw-773175091.jpg'
+        //            }
+        //        ],
+        //        'genres':['Animation','comedy','Sci-Fi','Action'],
+        //        'type':'movie',
+        //        'background':'https://www.shutterstock.com/image-vector/grunge-red-preview-word-square-260nw-773175091.jpg'
+        //    };
+        //    const docRef = await addDoc(collection(db, "popularMovies"), docData);
+
+        //    return;
+       
         try{
-            const req = await fetch(conf.API_URL+"/movies/popular");
-            const res = await req.json();
-    
-            if(res.success){
-                setPopularMovies(res.movies.map((movie: any) => {
-                    return {
-                        id: movie.id,
-                        title: movie.title,
-                        image: movie.poster,
-                        type: "movie"
-                    }
-                }));
-            }
+            await getDocs(collection(db, 'popularMovies')).then((querySnapshot)=>{
+                const latestPopularMovie = querySnapshot.docs.map((doc:any) => ({...doc.data(),id:doc.id}))
+                setPopularMovies(latestPopularMovie);
+            });
         }
         catch(error){
             console.log(error);
         }
-      
     }
 
     async function getPopularTv(){
@@ -243,6 +276,7 @@ function Home(){
                         id: movie.id,
                         title: movie.title,
                         image: movie.poster,
+                        background:'https://www.shutterstock.com/image-vector/grunge-red-preview-word-square-260nw-773175091.jpg',
                         type: "tv"
                     }
                 }));
@@ -265,6 +299,7 @@ function Home(){
                         id: movie.id,
                         title: movie.title,
                         image: movie.poster,
+                        background:'https://www.shutterstock.com/image-vector/grunge-red-preview-word-square-260nw-773175091.jpg',
                         type: "movie"
                     }
                 }));
@@ -287,6 +322,7 @@ function Home(){
                         id: movie.id,
                         title: movie.title,
                         image: movie.poster,
+                        background:'https://www.shutterstock.com/image-vector/grunge-red-preview-word-square-260nw-773175091.jpg',
                         type: "tv"
                     }
                 }));
@@ -299,11 +335,14 @@ function Home(){
     }
 
     useEffect(() => {
-        getFeatured();
+
+        
         getPopularMovies();
-        getPopularTv();
-        getTopMovies();
-        getTopTv();
+
+        // getFeatured();
+        // getPopularTv();
+        // getTopMovies();
+        // getTopTv();
     }, []);
 
     if(!featured){
@@ -320,7 +359,7 @@ function Home(){
                 to={featured.type === "movie" ? `/movie/${featured.id}` : `/tv/${featured.id}`}
                 className="movie-hero"
                 style={{
-                    background: `url(${conf.TMDB_IMAGE_URL+"/original"+featured.image}) no-repeat center / cover`
+                    background: `url(${featured.image}) no-repeat center / cover`
                 }}>
                     <div className="movie-hero-drop"></div>
 

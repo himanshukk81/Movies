@@ -34,21 +34,23 @@ let breakpoints = {
     }
 }
 
-function CardSection({title, items}:any){
+function  CardSection({title, items}:any){
     if(!items){
         return null;
     }
-
+    console.log({items41Items:items,title:title});
     return (
         <div className="movie-section">
             <p className="movie-section-title">{title}</p>
 
             <Swiper
             autoplay={{ delay: 5000 }}
-            navigation={true} modules={[Navigation, Autoplay]}
-            loop={true}
+            navigation={true} 
+            // modules={[Navigation, Autoplay]}
+            loop={false}
             className="movie-section-row"
-            breakpoints={breakpoints}>
+            breakpoints={breakpoints}
+            >
 
                 {
                     items.map((item:any) => (
@@ -57,7 +59,7 @@ function CardSection({title, items}:any){
                             to={`/${item.type === "movie" ? "movie" : "tv"}/${item.id}`}
                             className="movie-card"
                             style={{
-                                background: `url(https://images2.alphacoders.com/131/1316826.jpeg) no-repeat center / cover`
+                                background: `url(${item.background}) no-repeat center / cover`
                             }}>
                                 <div className="movie-card-content">
                                     <i className="fa-solid fa-play"></i>
