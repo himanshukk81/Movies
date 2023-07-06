@@ -12,57 +12,44 @@ import {
   CTableHead,
   CTableHeaderCell,
   CTableRow,
-} from '@coreui/react'
+} from '@coreui/react';
+import {
+  CButton
+} from '@coreui/react';
+import { useNavigate } from 'react-router-dom';
+
 import { DocsExample } from 'src/components'
 import {db} from '../../../configuration/firebase';
-import {collection, getDocs , setDoc , doc} from "firebase/firestore"
+import {collection, getDocs , addDoc , doc , deleteDoc , updateDoc} from "firebase/firestore"
 
-const Tables = () => {
-  const [categories, setCategories] = useState();
+const Tables = (props,{propsD}) => {
+  const navigate = useNavigate();
+  const [categories , setCategories] = useState([]);
   useEffect(()=>{
+    setCategories(props.categoryList);
+  });  
 
-    fetchCategories();
-
-  },[]);
-
-  const fetchCategories = async () =>{
-    console.log("categories");
-
+  const deleteCategories = async (documentId) => {
+    console.log(documentId);
     try{
-      await getDocs(collection(db, 'categories')).then((querySnapshot)=>{
-          const categories = querySnapshot.docs.map((doc) => ({...doc.data(),id:doc.id}))
-          console.log({categories:categories}); 
-      });
+        const docRef = doc(db, "categories", documentId);
+        deleteDoc(docRef)
+        .then(() => {
+            console.log("Entire Document has been deleted successfully.")
+        }).catch((error)=>{
+            console.log(error);
+        })
     }
     catch(error){
         console.log(error);
     }
+  };
 
-  }
-  const fetchMovies = async() =>{
-    console.log("fetching movies");
-    try{
-      await getDocs(collection(db, 'popularMovies')).then((querySnapshot)=>{
-          const latestPopularMovie = querySnapshot.docs.map((doc) => ({...doc.data(),id:doc.id}))
-          console.log({latestPopularMovie:latestPopularMovie}); 
-      });
-    }
-    catch(error){
-        console.log(error);
-    }
-  }
   return (
     <CRow>
       <CCol xs={12}>
         <CCard className="mb-4">
-          <CCardHeader>
-            <strong>React Table</strong> <small>Basic example</small>
-          </CCardHeader>
           <CCardBody>
-            <p className="text-medium-emphasis small">
-              Using the most basic table CoreUI, here&#39;s how <code>&lt;CTable&gt;</code>-based
-              tables look in CoreUI.
-            </p>
             <DocsExample href="components/table">
               <CTable>
                 
@@ -70,22 +57,40 @@ const Tables = () => {
                   <CTableRow>
                     <CTableHeaderCell scope="col">#</CTableHeaderCell>
                     <CTableHeaderCell scope="col">Title</CTableHeaderCell>
-                    <CTableHeaderCell scope="col">Released</CTableHeaderCell>
-                    <CTableHeaderCell scope="col">Runtime</CTableHeaderCell>
-                    <CTableHeaderCell scope="col">Stars</CTableHeaderCell>
-
+                    <CTableHeaderCell scope="col">Action</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
 
-                <CTableBody>
-                  <CTableRow>
-                    <CTableHeaderCell scope="row">1</CTableHeaderCell>
-                    <CTableDataCell>Markww</CTableDataCell>
-                    <CTableDataCell>Otto</CTableDataCell>
-                    <CTableDataCell>@mdo</CTableDataCell>
-                  </CTableRow>
+                {categories && categories.length &&<CTableBody>
                   
-                </CTableBody>
+                  {categories.map((category,index)=>{
+                    return(
+                      <CTableRow>
+                      <CTableHeaderCell scope="row">{index+1}</CTableHeaderCell>
+                      <CTableDataCell>{category?.title}</CTableDataCell>
+                      <CTableDataCell>
+                        <CButton color="link" active={true}
+                          onClick={()=>{
+                                  console.log(category);
+                                  navigate('/Category/AddCategory',{
+                                    state:category
+                                  });
+                          }}>
+                              Edit
+                        </CButton> 
+                        <CButton color="link" active={true}
+                          onClick={()=>{
+                                  console.log(category);
+                                  deleteCategories(category.id)
+                          }}>
+                              Delete
+                        </CButton>   
+                      </CTableDataCell>
+                    </CTableRow>
+                    )
+                  })}
+                  
+                </CTableBody>}
 
               </CTable>
             </DocsExample>
