@@ -76,14 +76,18 @@ const AddCategory = (props,state) =>{
                             }}
                             value={title}
                         />
-                        <CButton
-                            color="link"
-                            active={true}
-                            onClick={()=>{
-                                addCategory();
-                            }}>
+                        <br/>
+                        <div style={{display:'flex',justifyContent:'center'}}>
+                            <CButton
+                                color="primary"
+                                active={true}
+                                onClick={()=>{
+                                    addCategory();
+                                }}>
                             {categoryId?'Update':'ADD' }
-                        </CButton>
+                            </CButton>
+                        </div>
+                       
                     </div>
                 </CForm>
             </DocsExample>

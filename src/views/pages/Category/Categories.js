@@ -22,7 +22,6 @@ const categories = () =>{
           await getDocs(collection(db, 'categories')).then((querySnapshot)=>{
               const categoryList = querySnapshot.docs.map((doc) => ({...doc.data(),id:doc.id}));
               setCategories(categoryList);
-
           });
         }
         catch(error){
@@ -32,8 +31,8 @@ const categories = () =>{
 
     const navigateToCategories = () =>{
         navigate('/Category/AddCategory');
-        // history.push('/pages/Category/AddCategory');
     };
+    
     const deleteCategories = async (documentId) => {
         try{
             const docRef = doc(db, "categories", documentId);
@@ -52,17 +51,17 @@ const categories = () =>{
         <>
             <div style={{display:'flex',justifyContent:'flex-end'}}>
             
-                <CButton color="link" active={true}
+                <CButton color="primary" active={true}
                     onClick={()=>{
                             navigateToCategories();
                     }}>
                     Add Category
                 </CButton>   
             </div>
-            <Tables categoryList={categories} />
+            <br/>
+            
+            <Tables categoryList={categories} isCategory={true} />
         </>
-       
-
     )
 
 };
