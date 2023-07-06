@@ -5,7 +5,9 @@ import conf from "../Config";
 import CardSection from "../components/CardSection";
 import Loading from "../views/Loading";
 import {collection, addDoc, orderBy, onSnapshot, QuerySnapshot, getDoc, getDocs , setDoc , doc} from "firebase/firestore"
-import {db} from '../configuration/firebase.js';
+// @ts-ignore
+
+import {db} from "../configuration/firebase";
 
 
 function Home(){
